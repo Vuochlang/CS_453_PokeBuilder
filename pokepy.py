@@ -9,31 +9,29 @@ import json
 
 def main():
 
-    data = {} #initializing data
-    data['Pokemon'] = []
+    dataset = [] #initializing dataset
 
-    for i in range(1, 899): #iterate through number of pokemon
+    for i in range(1, 899): #iterate through 899 number of pokemon
         poke = pb.pokemon(i)
-        types = ''
+        types = []
         for type_slot in poke.types: #reformat for multiple types
-            types = types + type_slot.type.name.title() + ','
+            types.append(type_slot.type.name.title())
 
-        types = types.rstrip(',')
-        #append pokemon name,types,stats and source to list.
-        data['Pokemon'].append({'ID': i,
-                                'Name': poke.name,
-                                'types': types,
-                                poke.stats[0].stat.name: poke.stats[0].base_stat,
-                                poke.stats[1].stat.name: poke.stats[1].base_stat,
-                                poke.stats[2].stat.name: poke.stats[2].base_stat,
-                                poke.stats[3].stat.name: poke.stats[3].base_stat,
-                                poke.stats[4].stat.name: poke.stats[4].base_stat,
-                                poke.stats[5].stat.name: poke.stats[5].base_stat,
-                                'Source': poke.url,
-                                })
+        dataset.append({'pokemon': {'id': i,
+            'name': poke.name,
+            'types': types,
+            poke.stats[0].stat.name: poke.stats[0].base_stat,
+            poke.stats[1].stat.name: poke.stats[1].base_stat,
+            poke.stats[2].stat.name: poke.stats[2].base_stat,
+            poke.stats[3].stat.name: poke.stats[3].base_stat,
+            poke.stats[4].stat.name: poke.stats[4].base_stat,
+            poke.stats[5].stat.name: poke.stats[5].base_stat,
+            'source': poke.url,
+            }})
         temp = [i, poke.name, types]
         print(temp)
-    with open('data.json', 'w') as outfile: #push data to file "data.txt"
-        json.dump(data, outfile, indent=3, ensure_ascii=False)
+    with open('pokemon.json', 'w') as outfile: #push data to file
+        for data in dataset:
+            json.dump(data, outfile, indent=3, ensure_ascii=False)
 
 main()
