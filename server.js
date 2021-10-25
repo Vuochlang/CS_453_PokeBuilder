@@ -7,7 +7,7 @@ const jsonParser = bodyParser.json();
 
 app.use(express.static('public'));
 
-const DATABASE_NAME = 'tmp';
+const DATABASE_NAME = 'buildpokemon';
 const MONGO_URL = `mongodb://localhost:27017/${DATABASE_NAME}`;
 
 let db = null;
@@ -51,7 +51,15 @@ async function onLookupWord(req, res) {
 
   const response = {
     word: word,
-    definition: result ? result.types : ''
+    definition: result ? result.types : '',
+    id: result ? result.id : '',
+    hp: result ? result.hp : '',
+    attack: result ? result.attack : '',
+    defense: result ? result.defense : '',
+    specialAttack: result ? result["special-attack"] : '',
+    specialDefense: result ? result["special-defense"] : '',
+    speed: result ? result.speed : '',
+    source: result ? result.source : ''
   };
   console.log("response-->: ", response);
   res.json(response);
