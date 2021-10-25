@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pokemon Team Builder</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="fetch.js" defer></script>
+  </head>
+  <body>
+    <h1>Build Your Pokemon Team</h1>
+
+    <form id="search">
+      Look up a word: <input type="text" id="word-input"/>
+      <input type="submit" value="Search!">
+    </form>
+
+    <hr />
+
+    <div id="results" class="hidden">
+      The definition of <strong id="word"></strong> is:
+      <ul>
+        <li>ID: <span id="id"></span></li>
+        <li>Types: <span id="definition"></span></li>
+        <li>Hp: <span id="hp"></span></li>
+        <li>Attack: <span id="attack"></span></li>
+        <li>Defense: <span id="defense"></span></li>
+        <li>Special Attack: <span id="special-attack"></span></li>
+        <li>Special Defense: <span id="special-defense"></span></li>
+        <li>Speed: <span id="speed"></span></li>
+        <li>Source: <span id="source"></span></li>
+      </ul>
+      <hr />
+      <form id="set">
+        <h2>
+          Modify the definition for this word:
+        </h2>
+        Word: <input id="set-word-input" type="text" readonly/>
+        <p>
+          Definition:
+        </p>
+        <textarea id="set-def-input"></textarea>
+        <input type="submit" value="Set">
+        <p id="status"></p>
+      </form>
+    </div>
+
+  </body>
+</html>

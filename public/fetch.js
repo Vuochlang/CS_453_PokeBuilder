@@ -11,8 +11,24 @@ async function onSearch(event) {
   // Prep results.
   const wordDisplay = results.querySelector('#word');
   const defDisplay = results.querySelector('#definition');
+  const idDisplay = results.querySelector('#id');
+  const hpDisplay = results.querySelector('#hp');
+  const attackDisplay = results.querySelector('#attack');
+  const defenseDisplay = results.querySelector('#defense');
+  const specialAttackDisplay = results.querySelector('#special-attack');
+  const specialDefenseDisplay = results.querySelector('#special-defense');
+  const speedDisplay = results.querySelector('#speed');
+  const sourceDisplay = results.querySelector('#source');
   wordDisplay.textContent = json.word;
   defDisplay.textContent = json.definition;
+  idDisplay.textContent = json.id;
+  hpDisplay.textContent = json.hp;
+  attackDisplay.textContent = json.attack;
+  defenseDisplay.textContent = json.defense;
+  specialAttackDisplay.textContent = json.specialAttack;
+  specialDefenseDisplay.textContent = json.specialDefense;
+  speedDisplay.textContent = json.speed;
+  sourceDisplay.textContent = json.source;
 
   // Prep set definition form.
   const setWordInput = results.querySelector('#set-word-input');
