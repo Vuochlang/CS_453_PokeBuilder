@@ -5,9 +5,8 @@ const MongoClient = require('mongodb').MongoClient;
 const app = express();
 const jsonParser = bodyParser.json();
 
-const PokemonClass = require('./class.js');
+const PokemonClass = require('./server-class.js');
 const myPokemonList = new PokemonClass();
-let index = 1; //index of Pokemon
 
 app.use(express.static('public'));
 
@@ -29,29 +28,12 @@ startServer();
 
 ////////////////////////////////////////////////////////////////////////////////
 
-async function onSearchPokemon(req, res) {
+async function findPokemon(req, res) {
   const routeParams = req.params;
-  // console.log("routeParams-->: ", req.params); //{ word: 'bulbasaur' }
   const word = routeParams.word;
-  // console.log("routeParams.word-->: ", routeParams.word); //routeParams.word-->:  bulbasaur
 
   const query = { name: word.toLowerCase() };
-  // console.log("query-->: ", query); //{ name: 'bulbasaur' }
-  const result = await collection.findOne(query);
-  // console.log("result-->: ", result);
-  // result-->:  {
-  //   _id: 6177138276d4e7ffaac8d2fb,
-  //   id: 1,
-  //   name: 'bulbasaur',
-  //   types: [ 'Grass', 'Poison' ],
-  //   hp: 45,
-  //   attack: 49,
-  //   defense: 49,
-  //   'special-attack': 65,
-  //   'special-defense': 65,
-  //   speed: 45,
-  //   source: 'http://pokeapi.co/api/v2/pokemon/1/'
-  // } 
+  const result = await collection.find(query); 
 
   const response = {
     word: word,
@@ -65,19 +47,25 @@ async function onSearchPokemon(req, res) {
     speed: result ? result.speed : '',
     source: result ? result.source : ''
   };
-  console.log("response-->: ", response);
+  console.log("debug: found ", response.word, " sending to client");
   res.json(response);
 }
-app.get('/lookup/:word', onSearchPokemo);
+app.get('/lookup/:word', findPokemon);
 
-async function onSetTeam(req, res) {
+async function addToTeam(req, res) {
   const definition = req.body.definition;
-  console.log("getting pokemon data from client-->: ", definition);
+  console.log("debug: requested to add ", definition.word, " to the team");
 
-  myPokemonList.addPokemon(index, definition);
-  index += 1;
+  myPokemonList.addPokemon(definition);
   myPokemonList.printPokemon();
 
   res.json({ success: true });
 }
-app.post('/set/', jsonParser, onSetTeam);
+app.post('/set/', jsonParser, addToTeam);
+
+async function removePokemon(req, res) {
+  myPokemonList.remove();
+  myPokemonList.printPokemon();
+  res.json({ success: true });
+}
+app.post('/remove/', jsonParser, removePokemon);
