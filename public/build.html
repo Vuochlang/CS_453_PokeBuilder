@@ -8,14 +8,7 @@
   </head>
   <body>
     <h1>Build Your Pokemon Team</h1>
-
-    <form id="search-name">
-      User name: <input type="text" id="name-input"/>
-      <input type="submit" value="Search!">
-    </form>
-
-    <textarea id="user-result"></textarea>
-
+    
     <form id="search">
       Look up a Pokemon: <input type="text" id="word-input"/>
       <input type="submit" value="Search!">
@@ -47,13 +40,16 @@
         </p>
         <textarea id="pokemon-team" readonly></textarea>
         <p id="status"></p>
-      </form> 
+        <p id="error"></p>
+      </form>
+      
+      <form id="remove">
+        <input type="submit" value="Remove">
+      </form>
 
       <h2>
         Set as your team?<input id ="set-team" type="submit" value="Set">
       </h2>
-    
-    </div>
 
   </body>
 </html>

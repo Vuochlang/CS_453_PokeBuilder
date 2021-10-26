@@ -24,3 +24,7 @@ textarea {
 h2 {
   font-size: 14pt;
 }
+
+#error {
+  color: red;
+}

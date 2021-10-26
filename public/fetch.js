@@ -1,4 +1,6 @@
 let tempPokemon = "";
+let limit = 1;
+let list = [];
 
 async function onSearch(event) {
   event.preventDefault();
@@ -38,11 +40,13 @@ async function onSearch(event) {
   results.classList.remove('hidden');
 }
 
-async function onSet(event) {
+async function addPokemon(event) {
+  const status = results.querySelector('#status');
+  const error = results.querySelector('#error');
+  error.textContent = '';
+
   event.preventDefault();
   const setTeam = results.querySelector('#pokemon-team');
-  const word = tempPokemon.name;
-
   const message = {
     definition: tempPokemon
   };
@@ -54,22 +58,52 @@ async function onSet(event) {
     },
     body: JSON.stringify(message)
   };
-  const status = results.querySelector('#status');
   status.textContent = '';
+
   await fetch('/set/', fetchOptions);
 
-  if (setTeam.value == "") {
-    setTeam.value = JSON.stringify(tempPokemon.word).toUpperCase();
+  if (limit < 4) {
+    limit += 1;
+    list.push(JSON.stringify(tempPokemon.word).toUpperCase());
+    setTeam.value = list.toString().replace(/ *, */g, '\n');
+
+    status.textContent = 'Saved.';
   }
   else {
-    setTeam.value = setTeam.value + "\n" + JSON.stringify(tempPokemon.word).toUpperCase();
+    error.textContent = 'MAX 3';
   }
+}
 
-  status.textContent = 'Saved.';
+async function removePokemon(event) {
+  event.preventDefault();
+
+  const fetchOptions = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: ''
+  };
+  await fetch('/remove/', fetchOptions);
+
+  let removedAlert = list.pop();
+
+  !removedAlert ? removedAlert = "Empty team" : removedAlert = "Removed " + removedAlert;
+  
+  limit > 1 ? limit -= 1 : limit = 1;
+
+  const setTeam = results.querySelector('#pokemon-team');
+  setTeam.value = list.toString().replace(/ *, */g, '\n');
+  const error = results.querySelector('#error');
+  error.textContent = removedAlert; 
 }
 
 const searchForm = document.querySelector('#search');
 searchForm.addEventListener('submit', onSearch);
 
 const setForm = document.querySelector('#set');
-setForm.addEventListener('submit', onSet);
+setForm.addEventListener('submit', addPokemon);
+
+const removeForm = document.querySelector('#remove');
+removeForm.addEventListener('submit', removePokemon);
