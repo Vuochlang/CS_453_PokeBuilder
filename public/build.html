@@ -9,15 +9,22 @@
   <body>
     <h1>Build Your Pokemon Team</h1>
 
+    <form id="search-name">
+      User name: <input type="text" id="name-input"/>
+      <input type="submit" value="Search!">
+    </form>
+
+    <textarea id="user-result"></textarea>
+
     <form id="search">
-      Look up a word: <input type="text" id="word-input"/>
+      Look up a Pokemon: <input type="text" id="word-input"/>
       <input type="submit" value="Search!">
     </form>
 
     <hr />
 
     <div id="results" class="hidden">
-      The definition of <strong id="word"></strong> is:
+      <strong id="word"></strong>
       <ul>
         <li>ID: <span id="id"></span></li>
         <li>Types: <span id="definition"></span></li>
@@ -30,18 +37,22 @@
         <li>Source: <span id="source"></span></li>
       </ul>
       <hr />
+
       <form id="set">
         <h2>
-          Modify the definition for this word:
+          Choose this Pokemon?<input type="submit" value="Submit">
         </h2>
-        Word: <input id="set-word-input" type="text" readonly/>
         <p>
-          Definition:
+          Your Pokemon Team (max of 3):
         </p>
-        <textarea id="set-def-input"></textarea>
-        <input type="submit" value="Set">
+        <textarea id="pokemon-team" readonly></textarea>
         <p id="status"></p>
-      </form>
+      </form> 
+
+      <h2>
+        Set as your team?<input id ="set-team" type="submit" value="Set">
+      </h2>
+    
     </div>
 
   </body>
