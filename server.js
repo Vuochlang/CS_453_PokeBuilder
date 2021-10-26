@@ -5,6 +5,10 @@ const MongoClient = require('mongodb').MongoClient;
 const app = express();
 const jsonParser = bodyParser.json();
 
+const PokemonClass = require('./class.js');
+const myPokemonList = new PokemonClass();
+let index = 1; //index of Pokemon
+
 app.use(express.static('public'));
 
 const DATABASE_NAME = 'buildpokemon';
@@ -25,16 +29,16 @@ startServer();
 
 ////////////////////////////////////////////////////////////////////////////////
 
-async function onLookupWord(req, res) {
+async function onSearchPokemon(req, res) {
   const routeParams = req.params;
-  console.log("routeParams-->: ", req.params); //{ word: 'bulbasaur' }
+  // console.log("routeParams-->: ", req.params); //{ word: 'bulbasaur' }
   const word = routeParams.word;
-  console.log("routeParams.word-->: ", routeParams.word); //routeParams.word-->:  bulbasaur
+  // console.log("routeParams.word-->: ", routeParams.word); //routeParams.word-->:  bulbasaur
 
   const query = { name: word.toLowerCase() };
-  console.log("query-->: ", query); //{ name: 'bulbasaur' }
+  // console.log("query-->: ", query); //{ name: 'bulbasaur' }
   const result = await collection.findOne(query);
-  console.log("result-->: ", result);
+  // console.log("result-->: ", result);
   // result-->:  {
   //   _id: 6177138276d4e7ffaac8d2fb,
   //   id: 1,
@@ -47,7 +51,7 @@ async function onLookupWord(req, res) {
   //   'special-defense': 65,
   //   speed: 45,
   //   source: 'http://pokeapi.co/api/v2/pokemon/1/'
-  // }
+  // } 
 
   const response = {
     word: word,
@@ -64,19 +68,16 @@ async function onLookupWord(req, res) {
   console.log("response-->: ", response);
   res.json(response);
 }
-app.get('/lookup/:word', onLookupWord);
+app.get('/lookup/:word', onSearchPokemo);
 
-async function onSetWord(req, res) {
-  const routeParams = req.params;
-  const word = routeParams.word.toLowerCase();
+async function onSetTeam(req, res) {
   const definition = req.body.definition;
+  console.log("getting pokemon data from client-->: ", definition);
 
-  const query = { word: word };
-  const newEntry = { word: word, definition: definition };
-  const params = { upsert: true };
-  const response =
-      await collection.update(query, newEntry, params);
+  myPokemonList.addPokemon(index, definition);
+  index += 1;
+  myPokemonList.printPokemon();
 
   res.json({ success: true });
 }
-app.post('/set/:word', jsonParser, onSetWord);
+app.post('/set/', jsonParser, onSetTeam);

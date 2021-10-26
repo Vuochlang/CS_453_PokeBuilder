@@ -1,3 +1,5 @@
+let tempPokemon = "";
+
 async function onSearch(event) {
   event.preventDefault();
   const input = document.querySelector('#word-input');
@@ -7,6 +9,8 @@ async function onSearch(event) {
   results.classList.add('hidden');
   const result = await fetch('/lookup/' + word);
   const json = await result.json();
+
+  tempPokemon = json;
 
   // Prep results.
   const wordDisplay = results.querySelector('#word');
@@ -19,7 +23,7 @@ async function onSearch(event) {
   const specialDefenseDisplay = results.querySelector('#special-defense');
   const speedDisplay = results.querySelector('#speed');
   const sourceDisplay = results.querySelector('#source');
-  wordDisplay.textContent = json.word;
+  wordDisplay.textContent = json.word.toUpperCase();
   defDisplay.textContent = json.definition;
   idDisplay.textContent = json.id;
   hpDisplay.textContent = json.hp;
@@ -30,25 +34,17 @@ async function onSearch(event) {
   speedDisplay.textContent = json.speed;
   sourceDisplay.textContent = json.source;
 
-  // Prep set definition form.
-  const setWordInput = results.querySelector('#set-word-input');
-  const setDefInput = results.querySelector('#set-def-input');
-  setWordInput.value = json.word;
-  setDefInput.value = json.definition;
-
   // Display.
   results.classList.remove('hidden');
 }
 
 async function onSet(event) {
   event.preventDefault();
-  const setWordInput = results.querySelector('#set-word-input');
-  const setDefInput = results.querySelector('#set-def-input');
-  const word = setWordInput.value;
-  const def = setDefInput.value;
+  const setTeam = results.querySelector('#pokemon-team');
+  const word = tempPokemon.name;
 
   const message = {
-    definition: def
+    definition: tempPokemon
   };
   const fetchOptions = {
     method: 'POST',
@@ -60,11 +56,16 @@ async function onSet(event) {
   };
   const status = results.querySelector('#status');
   status.textContent = '';
-  await fetch('/set/' + word, fetchOptions);
-  status.textContent = 'Saved.';
+  await fetch('/set/', fetchOptions);
 
-  const defDisplay = results.querySelector('#definition');
-  defDisplay.textContent = def;
+  if (setTeam.value == "") {
+    setTeam.value = JSON.stringify(tempPokemon.word).toUpperCase();
+  }
+  else {
+    setTeam.value = setTeam.value + "\n" + JSON.stringify(tempPokemon.word).toUpperCase();
+  }
+
+  status.textContent = 'Saved.';
 }
 
 const searchForm = document.querySelector('#search');
