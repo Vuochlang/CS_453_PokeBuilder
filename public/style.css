@@ -1,6 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=Sigmar+One);
+
 body {
   font-family: Times, serif;
   font-size: 14pt;
+  margin: 5% 10%;
 }
 
 .hidden {
@@ -27,4 +30,40 @@ h2 {
 
 #error {
   color: red;
+}
+
+#picture {
+  width: 100px;
+}
+
+#result-wrapper {
+  height: 200px;
+  margin-bottom: 50px;
+}
+
+#result {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+}
+
+#result section {
+  display: block;
+  display: flex;
+  padding:  5px;
+  padding-left:  30px;
+  align-items: center; 
+}
+
+#res1 {
+  grid-column: 1 / 2;
+}
+
+#res2 {
+  grid-column: 2 / 3;
+}
+
+#word {
+  font: 20pt 'sigmar one';
 }

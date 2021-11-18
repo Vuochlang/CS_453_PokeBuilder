@@ -1,6 +1,7 @@
 let tempPokemon = "";
 let limit = 1;
 let list = [];
+let imageLink = "https://raw.githubusercontent.com/PokeApi/sprites/master/sprites/pokemon/";
 
 async function onSearch(event) {
   event.preventDefault();
@@ -35,6 +36,11 @@ async function onSearch(event) {
   specialDefenseDisplay.textContent = json.specialDefense;
   speedDisplay.textContent = json.speed;
   sourceDisplay.textContent = json.source;
+
+  const imageDisplay = document.querySelector('#picture');
+  let temp = "";
+  temp = temp.concat(imageLink, json.id, ".png");
+  imageDisplay.src = temp;
 
   // Display.
   results.classList.remove('hidden');

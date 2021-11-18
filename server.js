@@ -33,7 +33,7 @@ async function findPokemon(req, res) {
   const word = routeParams.word;
 
   const query = { name: word.toLowerCase() };
-  const result = await collection.find(query); 
+  const result = await collection.findOne(query);
 
   const response = {
     word: word,
@@ -47,6 +47,7 @@ async function findPokemon(req, res) {
     speed: result ? result.speed : '',
     source: result ? result.source : ''
   };
+
   console.log("debug: found ", response.word, " sending to client");
   res.json(response);
 }

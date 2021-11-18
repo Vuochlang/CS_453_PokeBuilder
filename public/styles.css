@@ -1,7 +1,10 @@
+@import url(https://fonts.googleapis.com/css?family=Sigmar+One);
+
 body {
   margin: 0;
   padding: 0;
-  background-image: linear-gradient(to right, #B4DBFA , #C8F585)
+  background-image: linear-gradient(to right, #B4DBFA , #C8F585);
+  overflow-y: hidden;
 }
 
 .container {
@@ -28,4 +31,10 @@ body {
 
 #pokeball {
   width: 400px;
+}
+
+h1 {
+  font: 70px 'sigmar one';
+  text-align: center;
+  color: black;
 }
