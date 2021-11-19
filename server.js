@@ -10,8 +10,9 @@ const myPokemonList = new PokemonClass();
 
 app.use(express.static('public'));
 
-const DATABASE_NAME = 'buildpokemon';
-const MONGO_URL = `mongodb://localhost:27017/${DATABASE_NAME}`;
+const MONGO_URL = `mongodb://localhost:27017/pokebuilder`;
+
+const fs = require('fs');
 
 let db = null;
 let collection = null;
@@ -20,9 +21,25 @@ async function startServer() {
   // Set the db and collection variables before starting the server.
   db = await MongoClient.connect(MONGO_URL);
   collection = db.collection('pokemon');
+  console.log('Created database <pokebuilder> and collection <pokemon>');
+
+  // added all 898 pokemon data
+  let pokemonData = fs.readFileSync('pokemon.json');  
+  let pokemon = JSON.parse(pokemonData); 
+  await collection.insertMany(pokemon); 
+  console.log("Finished loaded data");
+
   // Now every route can safely use the db and collection objects.
   await app.listen(3000);
   console.log('Listening on port 3000');
+
+  process.on('SIGINT', function() {
+    console.log("Caught ctrl-C signal, clearing data on Mongo..");
+    db.dropDatabase();
+    console.log("Dropped database");
+    db.close();
+    process.exit();
+  });
 }
 startServer();
 

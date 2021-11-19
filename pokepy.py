@@ -32,7 +32,7 @@ def main():
         temp = [i, poke.name, types]
         print(temp)
     with open('pokemon-library.json', 'w') as outfile: #push data to file
-        for data in dataset:
-            json.dump(data, outfile, indent=3, ensure_ascii=False)
+        # for data in dataset:
+        json.dump(dataset, outfile, indent=3, ensure_ascii=False)
 
 main()
