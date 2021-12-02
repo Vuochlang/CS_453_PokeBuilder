@@ -4,6 +4,7 @@ body {
   font-family: Times, serif;
   font-size: 14pt;
   margin: 2% 10%;
+  background-image: linear-gradient(to right, #B4DBFA , #C8F585);
 }
 
 .hidden {
