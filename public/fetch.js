@@ -1,16 +1,38 @@
 class Pokemon {
 	constructor() {
-        this.tempPokemon= "";
-        this.limit = 1;
-        this.list = [];
-        // this.imageLink = "https://raw.githubusercontent.com/PokeApi/sprites/master/sprites/pokemon/";
-        this.imageLink = "https://assets.pokemon.com/assets/cms2/img/pokedex/full/";
+    this.tempPokemon= "";
+    this.limit = 1;
+    this.list = [];
+    this.imageLink = "https://assets.pokemon.com/assets/cms2/img/pokedex/full/";
 	}
+
+  update() {
+    this.limit > 1 ? this.limit -= 1 : this.limit = 1;
+  }
 }
 
 class Team {
   constructor() {
     this.list_id = [];
+  }
+
+  getImageLink(imagelink, listId, index) {
+    let id = listId; //assume index=-1
+  
+    if (index > -1) {
+      id = listId[index];
+  
+      if (id == undefined)
+        return ("img/pokeball.png");
+    }
+  
+    if (id >= 10 &&  id < 100) {
+      id = "".concat("0", id);
+    }
+    else if (id < 10) {
+      id = "".concat("00", id);
+    }
+    return "".concat(imagelink, id, ".png");
   }
 }
 
@@ -52,7 +74,7 @@ async function onSearch(event) {
   sourceDisplay.textContent = json.source;
 
   const imageDisplay = document.querySelector('#picture');
-  imageDisplay.src = getImageLink(myPokemon.imageLink, json.id, -1);
+  imageDisplay.src = teamPokemon.getImageLink(myPokemon.imageLink, json.id, -1);
 
   // Display.
   results.classList.remove('hidden');
@@ -92,8 +114,6 @@ async function addPokemon(event) {
   else {
     error.textContent = 'MAX 3';
   }
-
-  console.log(myPokemon.list);
 }
 
 async function removePokemon(event) {
@@ -114,7 +134,9 @@ async function removePokemon(event) {
 
   !removedAlert ? removedAlert = "Empty team" : removedAlert = "Removed " + removedAlert;
   
-  myPokemon.limit > 1 ? myPokemon.limit -= 1 : myPokemon.limit = 1;
+  myPokemon.update();
+
+  // myPokemon.limit > 1 ? myPokemon.limit -= 1 : myPokemon.limit = 1;
 
   const setTeam = results.querySelector('#pokemon-team');
   setTeam.value = myPokemon.list.toString().replace(/ *, */g, '\n');
@@ -124,34 +146,14 @@ async function removePokemon(event) {
 
 async function setPokemon(event) {
   event.preventDefault();
-  console.log(teamPokemon.list_id);
-
-  //set images
 
   const pokemon3 = document.querySelector('#pokemon-three');
   const pokemon2 = document.querySelector('#pokemon-two');
   const pokemon1 = document.querySelector('#pokemon-one');
 
-  pokemon1.src = getImageLink(myPokemon.imageLink, teamPokemon.list_id, 0);
-  pokemon2.src = getImageLink(myPokemon.imageLink, teamPokemon.list_id, 1);
-  pokemon3.src = getImageLink(myPokemon.imageLink, teamPokemon.list_id, 2);
-
-}
-
-function getImageLink(imagelink, listId, index) {
-  let id = listId; //assume index=-1
-
-  if (index > -1) {
-    id = listId[index];
-  }
-
-  if (id >= 10 &&  id < 100) {
-    id = "".concat("0", id);
-  }
-  else if (id < 10) {
-    id = "".concat("00", id);
-  }
-  return "".concat(imagelink, id, ".png");
+  pokemon1.src = teamPokemon.getImageLink(myPokemon.imageLink, teamPokemon.list_id, 0);
+  pokemon2.src = teamPokemon.getImageLink(myPokemon.imageLink, teamPokemon.list_id, 1);
+  pokemon3.src = teamPokemon.getImageLink(myPokemon.imageLink, teamPokemon.list_id, 2);
 }
 
 const searchForm = document.querySelector('#search');
