@@ -68,10 +68,8 @@ h2 {
 #word {
   font: 20pt 'sigmar one';
 }
-<<<<<<< HEAD
 
 .pokemon-team {
-  background-color: white;
   width: 200px;
   height: 200px;
   border-radius: 50%;
@@ -82,5 +80,3 @@ h2 {
   position: absolute;
   bottom: 10%;
 }
-=======
->>>>>>> f593e0b82b33eb92df1695857d6cda1bb582ea84
