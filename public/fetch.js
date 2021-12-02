@@ -1,7 +1,21 @@
-let tempPokemon = "";
-let limit = 1;
-let list = [];
-let imageLink = "https://raw.githubusercontent.com/PokeApi/sprites/master/sprites/pokemon/";
+class Pokemon {
+	constructor() {
+        this.tempPokemon= "";
+        this.limit = 1;
+        this.list = [];
+        // this.imageLink = "https://raw.githubusercontent.com/PokeApi/sprites/master/sprites/pokemon/";
+        this.imageLink = "https://assets.pokemon.com/assets/cms2/img/pokedex/full/";
+	}
+}
+
+class Team {
+  constructor() {
+    this.list_id = [];
+  }
+}
+
+const myPokemon = new Pokemon();
+const teamPokemon = new Team();
 
 async function onSearch(event) {
   event.preventDefault();
@@ -13,7 +27,7 @@ async function onSearch(event) {
   const result = await fetch('/lookup/' + word);
   const json = await result.json();
 
-  tempPokemon = json;
+  myPokemon.tempPokemon = json;
 
   // Prep results.
   const wordDisplay = results.querySelector('#word');
@@ -38,9 +52,7 @@ async function onSearch(event) {
   sourceDisplay.textContent = json.source;
 
   const imageDisplay = document.querySelector('#picture');
-  let temp = "";
-  temp = temp.concat(imageLink, json.id, ".png");
-  imageDisplay.src = temp;
+  imageDisplay.src = getImageLink(myPokemon.imageLink, json.id, -1);
 
   // Display.
   results.classList.remove('hidden');
@@ -54,7 +66,7 @@ async function addPokemon(event) {
   event.preventDefault();
   const setTeam = results.querySelector('#pokemon-team');
   const message = {
-    definition: tempPokemon
+    definition: myPokemon.tempPokemon
   };
   const fetchOptions = {
     method: 'POST',
@@ -68,16 +80,20 @@ async function addPokemon(event) {
 
   await fetch('/set/', fetchOptions);
 
-  if (limit < 4) {
-    limit += 1;
-    list.push(JSON.stringify(tempPokemon.word).toUpperCase());
-    setTeam.value = list.toString().replace(/ *, */g, '\n');
+  if (myPokemon.limit < 4) {
+    myPokemon.limit += 1;
+    myPokemon.list.push(JSON.stringify(myPokemon.tempPokemon.word).toUpperCase());
+    setTeam.value = myPokemon.list.toString().replace(/ *, */g, '\n');
+
+    teamPokemon.list_id.push(myPokemon.tempPokemon.id);
 
     status.textContent = 'Saved.';
   }
   else {
     error.textContent = 'MAX 3';
   }
+
+  console.log(myPokemon.list);
 }
 
 async function removePokemon(event) {
@@ -93,23 +109,59 @@ async function removePokemon(event) {
   };
   await fetch('/remove/', fetchOptions);
 
-  let removedAlert = list.pop();
+  let removedAlert = myPokemon.list.pop();
+  teamPokemon.list_id.pop();
 
   !removedAlert ? removedAlert = "Empty team" : removedAlert = "Removed " + removedAlert;
   
-  limit > 1 ? limit -= 1 : limit = 1;
+  myPokemon.limit > 1 ? myPokemon.limit -= 1 : myPokemon.limit = 1;
 
   const setTeam = results.querySelector('#pokemon-team');
-  setTeam.value = list.toString().replace(/ *, */g, '\n');
+  setTeam.value = myPokemon.list.toString().replace(/ *, */g, '\n');
   const error = results.querySelector('#error');
   error.textContent = removedAlert; 
+}
+
+async function setPokemon(event) {
+  event.preventDefault();
+  console.log(teamPokemon.list_id);
+
+  //set images
+
+  const pokemon3 = document.querySelector('#pokemon-three');
+  const pokemon2 = document.querySelector('#pokemon-two');
+  const pokemon1 = document.querySelector('#pokemon-one');
+
+  pokemon1.src = getImageLink(myPokemon.imageLink, teamPokemon.list_id, 0);
+  pokemon2.src = getImageLink(myPokemon.imageLink, teamPokemon.list_id, 1);
+  pokemon3.src = getImageLink(myPokemon.imageLink, teamPokemon.list_id, 2);
+
+}
+
+function getImageLink(imagelink, listId, index) {
+  let id = listId; //assume index=-1
+
+  if (index > -1) {
+    id = listId[index];
+  }
+
+  if (id >= 10 &&  id < 100) {
+    id = "".concat("0", id);
+  }
+  else if (id < 10) {
+    id = "".concat("00", id);
+  }
+  return "".concat(imagelink, id, ".png");
 }
 
 const searchForm = document.querySelector('#search');
 searchForm.addEventListener('submit', onSearch);
 
-const setForm = document.querySelector('#set');
+const setForm = document.querySelector('#set'); //submit button
 setForm.addEventListener('submit', addPokemon);
 
 const removeForm = document.querySelector('#remove');
 removeForm.addEventListener('submit', removePokemon);
+
+const setTeam = document.querySelector('#set-team');
+setTeam.addEventListener('submit', setPokemon);
