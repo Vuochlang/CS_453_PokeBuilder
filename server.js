@@ -62,7 +62,6 @@ async function findPokemon(req, res) {
     specialAttack: result ? result["special-attack"] : '',
     specialDefense: result ? result["special-defense"] : '',
     speed: result ? result.speed : '',
-    source: result ? result.source : ''
   };
 
   console.log("debug: found ", response.word, " sending to client");

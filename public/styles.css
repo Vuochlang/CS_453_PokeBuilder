@@ -4,20 +4,19 @@ body {
   margin: 0;
   padding: 0;
   background-image: linear-gradient(to right, #B4DBFA , #C8F585);
-  overflow-y: hidden;
 }
 
 .container {
-  margin:  auto;
+  margin:  5% 20%;
   position: relative;
-  height: 100vh;
+  height: 80vh;
+  text-align: center;
 }
 
 .balls {
   border-radius: 0%;
   position: absolute;
-  left: 55vh;
-  top: 10%;
+  top: 30%;
   animation-name: jump;
   animation-duration: 4s;
   animation-iteration-count: infinite;
@@ -25,16 +24,27 @@ body {
 
 @keyframes jump {
   40% {
-    top: 30%;
+    top: 40%;
   }
 }
 
 #pokeball {
-  width: 400px;
+  width: 50%;
 }
 
 h1 {
-  font: 70px 'sigmar one';
-  text-align: center;
+  font: 40px 'sigmar one';
   color: black;
+}
+
+@media only screen and (min-width: 751px) and (max-width: 1000px) {
+  h1 {
+    font: 55px 'sigmar one';
+  }
+}
+
+@media only screen and (min-width: 1001px) {
+  h1 {
+    font: 70px 'sigmar one';
+  }
 }

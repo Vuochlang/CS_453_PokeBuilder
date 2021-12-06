@@ -61,7 +61,6 @@ async function onSearch(event) {
   const specialAttackDisplay = results.querySelector('#special-attack');
   const specialDefenseDisplay = results.querySelector('#special-defense');
   const speedDisplay = results.querySelector('#speed');
-  const sourceDisplay = results.querySelector('#source');
   wordDisplay.textContent = json.word.toUpperCase();
   defDisplay.textContent = json.definition;
   idDisplay.textContent = json.id;
@@ -71,7 +70,6 @@ async function onSearch(event) {
   specialAttackDisplay.textContent = json.specialAttack;
   specialDefenseDisplay.textContent = json.specialDefense;
   speedDisplay.textContent = json.speed;
-  sourceDisplay.textContent = json.source;
 
   const imageDisplay = document.querySelector('#picture');
   imageDisplay.src = teamPokemon.getImageLink(myPokemon.imageLink, json.id, -1);
@@ -84,6 +82,7 @@ async function addPokemon(event) {
   const status = results.querySelector('#status');
   const error = results.querySelector('#error');
   error.textContent = '';
+  status.textContent = '';
 
   event.preventDefault();
   const setTeam = results.querySelector('#pokemon-team');
@@ -105,8 +104,8 @@ async function addPokemon(event) {
   if (myPokemon.limit < 4) {
     myPokemon.limit += 1;
     myPokemon.list.push(JSON.stringify(myPokemon.tempPokemon.word).toUpperCase());
+    
     setTeam.value = myPokemon.list.toString().replace(/ *, */g, '\n');
-
     teamPokemon.list_id.push(myPokemon.tempPokemon.id);
 
     status.textContent = 'Saved.';
@@ -117,6 +116,8 @@ async function addPokemon(event) {
 }
 
 async function removePokemon(event) {
+  const status = results.querySelector('#status');
+  status.textContent = '';
   event.preventDefault();
 
   const fetchOptions = {
@@ -136,16 +137,19 @@ async function removePokemon(event) {
   
   myPokemon.update();
 
-  // myPokemon.limit > 1 ? myPokemon.limit -= 1 : myPokemon.limit = 1;
-
   const setTeam = results.querySelector('#pokemon-team');
   setTeam.value = myPokemon.list.toString().replace(/ *, */g, '\n');
   const error = results.querySelector('#error');
   error.textContent = removedAlert; 
+
 }
 
 async function setPokemon(event) {
   event.preventDefault();
+  const status = results.querySelector('#status');
+  const error = results.querySelector('#error');
+  error.textContent = '';
+  status.textContent = '';
 
   const pokemon3 = document.querySelector('#pokemon-three');
   const pokemon2 = document.querySelector('#pokemon-two');

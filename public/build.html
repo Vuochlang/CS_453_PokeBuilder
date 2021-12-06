@@ -2,19 +2,23 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
     <title>Pokemon Team Builder</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
     <script src="fetch.js" defer></script>
   </head>
   <body>
-    <h1>Build Your Pokemon Team</h1>
-    
-    <form id="search">
-      Look up a Pokemon: <input type="text" id="word-input"/>
-      <input type="submit" value="Search!">
-    </form>
 
-    <hr />
+    <h1>P<img id="logo" src="img/pokeball.png" alt="pokeball">Builder</h1>
+    <hr>
+
+    <form id="search">
+      Build Your Pokemon Team: <input type="text" id="word-input" placeholder="Pokemon Name">
+      <input class="button" type="submit" value="Search">
+    </form>
 
     <div id="results" class="hidden">
       <strong id="word"></strong>
@@ -30,7 +34,6 @@
               <li>Special Attack: <span id="special-attack"></span></li>
               <li>Special Defense: <span id="special-defense"></span></li>
               <li>Speed: <span id="speed"></span></li>
-              <li>Source: <span id="source"></span></li>
             </ul>
           </section>
           <section id="res2">
@@ -38,35 +41,29 @@
           </section>
         </div>
       </div>
-      
-      <hr />
 
       <form id="set">
-        <h2>
-          Choose this Pokemon?<input type="submit" value="Submit">
-        </h2>
+        <input id="choose" class="button" type="submit" value="Choose this Pokemon"><hr>
         <p>
           Your Pokemon Team (max of 3):
         </p>
         <textarea id="pokemon-team" readonly></textarea>
-        <p id="status"></p>
-        <p id="error"></p>
+        <p class="alert" id="status"></p>
+        <p class="alert" id="error"></p>
       </form>
       
       <form id="remove">
-        <input type="submit" value="Remove">
+        <input class="button" type="submit" value="Remove">
       </form>
 
       <form id="set-team">
-        <h2>
-          Set as your team?<input type="submit" value="Set Team">
-        </h2>
-        <div id="image">
-          <img id="pokemon-one" class="pokemon-team" src="img/pokeball.png">
-          <img id="pokemon-two" class="pokemon-team" src="img/pokeball.png">
-          <img id="pokemon-three" class="pokemon-team" src="img/pokeball.png">
-        </div>
-    </form>
+        <input class="button" type="submit" value="Set as my team">
+          <div id="image">
+            <img id="pokemon-one" class="pokemon-team" src="img/pokeball.png">
+            <img id="pokemon-two" class="pokemon-team" src="img/pokeball.png">
+            <img id="pokemon-three" class="pokemon-team" src="img/pokeball.png">
+          </div>
+      </form>
 
   </body>
 </html>
