@@ -1,3 +1,9 @@
-Makesure "pokebuilder" does not exist before running the program
+Makesure "pokebuilder" does not exist before running the program since server.js will create a database call "pokebuilder" and a collection "pokemon".
 
-1. server.js will create a database call "pokebuilder" and a collection "pokemon"
+Running instructions:
+1. Start Mongo Server database i.e.
+  - mkdir data
+  - mongod -dbpath data
+2. Now in project repo run: npm install -d 
+3. now run: node server
+4. view web app on web: localhost:3000
